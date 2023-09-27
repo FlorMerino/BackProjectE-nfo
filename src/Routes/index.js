@@ -46,12 +46,5 @@ router.get('/allUsers', async(req,res,next)=>{
 
 
 
-
-
-
-
-
-
-
 module.exports= router;
 
