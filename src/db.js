@@ -34,12 +34,11 @@ let capsEntries = entries.map((entry) => [entry[0][0].toUpperCase() + entry[0].s
 sequelize.models = Object.fromEntries(capsEntries);
 
 // importo modelos
-const { Country, Tourist_activity} = sequelize.models;
+
 const { User} = sequelize.models;
 
 //relaciones
-Country.belongsToMany(Tourist_activity, { through: "Country_Activity"});
-Tourist_activity.belongsToMany(Country, { through: "Country_Activity"});
+
 
 module.exports = {
   ...sequelize.models, 
