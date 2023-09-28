@@ -9,11 +9,11 @@ const {DB_USER, DB_PASSWORD, DB_HOST,DB_NAME} = process.env;
 
 //Sequelize
 const sequelize = new Sequelize(
-  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/${DB_NAME}`, 
+  `postgres://${DB_USER}:${DB_PASSWORD}@${DB_HOST}/users`, 
 {
   logging: false, // set to console.log to see the raw SQL queries
   native: false, // lets Sequelize know we can use pg-native for ~30% more speed
-  dialectModule: postgres,
+  // dialectModule: postgres,
 });
 
 const basename = path.basename(__filename);
@@ -35,9 +35,34 @@ sequelize.models = Object.fromEntries(capsEntries);
 
 // importo modelos
 
-const { User} = sequelize.models;
+const {SecUsers,UserStatus,DocumentTypes} = sequelize.models;
 
-//relaciones
+//relaciones SecUsers - DocumentT
+SecUsers.belongsToMany(DocumentTypes, {
+  through: 'DocumentTypeId',
+   foreignKey: 'DocumentTypeId',
+  targetKey: 'Id'
+});
+DocumentTypes.belongsTo(SecUsers, { 
+  through: 'DocumentTypeId',
+   foreignKey: 'DocumentTypeId',
+  targetKey: 'Id'
+});
+
+//relaciones SecUsers - UserStatus
+// SecUsers.hasOne(UserStatus, {
+//   through: 'UserStateId',
+//   foreignKey: 'UserStateId',
+//   targetKey: 'Id'
+// });
+// UserStatus.hasMany(SecUsers, { 
+//   through: 'UserStateId',
+//   foreignKey: 'UserStateId',
+//   targetKey: 'Id'
+// });
+
+
+
 
 
 module.exports = {
