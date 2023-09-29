@@ -41,13 +41,12 @@ const {SecUsers,UserStatus,DocumentTypes} = sequelize.models;
 
 DocumentTypes.hasMany(SecUsers);
 
-SecUsers.belongsTo(DocumentTypes); //en secUser se crea una fila DocumentTypeId
-
+SecUsers.belongsTo(DocumentTypes); 
 
 //relaciones SecUsers - UserStatus
-//  UserStatus.hasMany(SecUsers);
+UserStatus.hasMany(SecUsers);
 
-//  SecUsers.belongsTo(UserStatus); //en secUser se crea una fila UserStatusId
+SecUsers.belongsTo(UserStatus); 
 
 //  {
 //   through: 'UserStateId',
