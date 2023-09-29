@@ -22,9 +22,9 @@ const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, Do
         await Document.addSecUsers(newUser);
         await Status.addSecUsers(newUser);
 
-     return `Your user ${FirstName} has been successfully created.`;
+     return { message: `Your user ${FirstName} has been successfully created.`} ;
     }
-    else return'Required fields are missing';
+    else return { Error: 'Required fields are missing'};
 };
 
 
@@ -37,9 +37,9 @@ const getAllUser = async()=>{
       });
       console.log(usersDb);
       if(usersDb.length>0){
-        return usersDb;
+        return {message: usersDb};
       }else{
-        return 'No user found'
+        return {Error:'No user found'};
       }
 }
 
@@ -48,26 +48,41 @@ const getAllUser = async()=>{
 const deleteUser = async(id,UserStatusId)=>{
 
   const user = await SecUsers.findByPk(id);
-  let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
+  let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } ); //para establecerlo en inactivo antes de borrar
   if (!user) {
     return {Error:'Username does not exist'};
   }
-  // await Status.addSecUsers(newUser);
+  if (!Status){
+    return {Error:'The status you want to assign does not exist'};
+  }
+
+  await Status.addSecUsers(user);
   await user.destroy(); // Elimina el usuario temporalmente
   return {message:'Successfully deleted user'};
   
 }
 
-const modifyUser = async(id,modifications) =>{
 
+const modifyUser = async(id,modifications) =>{
+ 
     const user = await SecUsers.findByPk(id);
 
     if (!user) {
       return { Error: 'Username does not exist' };
     }
+     if (modifications.DocumentTypeId){
+       let Document = await DocumentTypes.findOne( {where: {Id: modifications.DocumentTypeId} } );
+
+       await Document.addSecUsers(user);
+       
+    }else if (modifications.UserStatusId){
+      let Status = await UserStatus.findOne( {where: {Id: modifications.UserStatusId} } );
+
+      await Status.addSecUsers(user);
+    }
+
     await user.update(modifications);
     return { message: 'User modified successfully'};
-
 
 }
 
