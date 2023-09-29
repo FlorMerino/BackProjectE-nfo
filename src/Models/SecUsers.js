@@ -109,6 +109,8 @@ module.exports = (sequelize) => {
       timestamps: true, //activa o desactiva q se generen las fechas de abajo
       createdAt: true, //guarda de forma automatica la fecha en que se creo el user
       updatedAt: true, // guarda tiempo de la última actualización
+      paranoid:true, // Habilita el modo "paranoid", elimina de forma temporal
+      deletedAt: 'DeletedDate' 
       
     }
     );

@@ -5,18 +5,20 @@ const {DocumentTypes,UserStatus,SecUsers} = require('../db');
 
 const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city, PostalCode, 
     PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, 
-    TwoFactorEnabled,DateOfBirth, UserStateId)=> {
+    TwoFactorEnabled,DateOfBirth, UserStatusId)=> {
     if(UserLogin && FirstName){
         const newUser = await SecUsers.create({UserLogin, FirstName,LastName, DocumentNumber, 
             Address, city, PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, 
             MustChangePassword, FailedAccessAttempts, TokenId, 
-            TwoFactorEnabled,DateOfBirth, UserStateId});
+            TwoFactorEnabled,DateOfBirth, UserStatusId});
 
           //console.log(typeof newUser) //obj
 
         let Document = await DocumentTypes.findOne( {where: {Id: DocumentTypeId} } );
+        let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
         //console.log(typeof Document) //obj
         await Document.addSecUsers(newUser);
+        await Status.addSecUsers(newUser);
 
      return `Your user ${FirstName} has been successfully created.`;
     }
@@ -25,14 +27,11 @@ const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, Do
 
 
 
-
-
-
 const getAllUser = async()=>{
-
+ //no trae usuarios eliminados temporalmente
     const usersDb = await SecUsers.findAll({ 
         attributes: ['UserLogin', 'FirstName','LastName', 'DocumentTypeId', 'DocumentNumber', 'Address', 'city', 'PostalCode', 'PhoneNumbers', 'Email', 
-            'DateOfBirth','UserStateId'],
+            'DateOfBirth','UserStatusId'],
       });
       console.log(usersDb);
       if(usersDb.length>0){
@@ -42,7 +41,23 @@ const getAllUser = async()=>{
       }
 }
 
+
+
+const deleteUser = async(id,UserStatusId)=>{
+
+  const user = await SecUsers.findByPk(id);
+  let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
+  if (!user) {
+    return {Error:'The user was not found'};
+  }
+  // await Status.addSecUsers(newUser);
+  await user.destroy(); // Elimina el usuario temporalmente
+  return {message:'Successfully deleted user'};
+  
+}
+
 module.exports= {
     confirmationUser,
-    getAllUser   
+    getAllUser,
+    deleteUser   
 }
