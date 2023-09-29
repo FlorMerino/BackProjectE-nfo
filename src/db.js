@@ -38,30 +38,22 @@ sequelize.models = Object.fromEntries(capsEntries);
 const {SecUsers,UserStatus,DocumentTypes} = sequelize.models;
 
 //relaciones SecUsers - DocumentT
-SecUsers.belongsToMany(DocumentTypes, {
-  through: 'DocumentTypeId',
-   foreignKey: 'DocumentTypeId',
-  targetKey: 'Id'
-});
-DocumentTypes.belongsTo(SecUsers, { 
-  through: 'DocumentTypeId',
-   foreignKey: 'DocumentTypeId',
-  targetKey: 'Id'
-});
+
+DocumentTypes.hasMany(SecUsers);
+
+SecUsers.belongsTo(DocumentTypes); //en secUser se crea una fila DocumentTypeId
+
 
 //relaciones SecUsers - UserStatus
-// SecUsers.hasOne(UserStatus, {
+ UserStatus.hasMany(SecUsers);
+
+ SecUsers.belongsTo(UserStatus); //en secUser se crea una fila UserStatusId
+
+//  {
 //   through: 'UserStateId',
 //   foreignKey: 'UserStateId',
 //   targetKey: 'Id'
-// });
-// UserStatus.hasMany(SecUsers, { 
-//   through: 'UserStateId',
-//   foreignKey: 'UserStateId',
-//   targetKey: 'Id'
-// });
-
-
+// }
 
 
 

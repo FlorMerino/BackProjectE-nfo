@@ -8,7 +8,7 @@ module.exports = (sequelize) => {
         type: DataTypes.UUID, //uniqueidentifier  
         // defaultValue: Sequelize.literal('uuid_generate_v4()') ,//equivalente a la funcion newid()
         // defaultValue: DataTypes.UUIDV4, 
-        // primaryKey: true, 
+       primaryKey: true, 
         unique: true, 
         allowNull: false,
       },
@@ -24,10 +24,10 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      DocumentTypeId:{
-        type: DataTypes.INTEGER,
-        allowNull: true,
-      },
+      // DocumentTypeId:{
+      //   type: DataTypes.INTEGER,
+      //   allowNull: true,
+      // },
 	  DocumentNumber:{
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -82,10 +82,10 @@ module.exports = (sequelize) => {
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      UserStateId:{
-        type: DataTypes.INTEGER,
-        allowNull:true
-      },
+      // UserStateId:{
+      //   type: DataTypes.INTEGER,
+      //   allowNull:true
+      // },
       DeletedDate:{
         type: DataTypes.DATEONLY,
         allowNull:true

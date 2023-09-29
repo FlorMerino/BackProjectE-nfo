@@ -6,8 +6,9 @@ module.exports = (sequelize) => {
   sequelize.define('UserStatus', {
     Id: {
       type: DataTypes.INTEGER,
-      // autoIncrement: true, //inserta una nueva fila en la tabla si no se especifica un valor para la columna id, Sequelize asigna automáticamente el siguiente valor disponible
-      // primaryKey: true,
+      autoIncrement: true, //inserta una nueva fila en la tabla y si no se especifica un valor para la columna id, Sequelize asigna automáticamente el siguiente valor disponible
+      //tener en cuenta que si se eliminan los datos de la tabla este sigue contando teniendo en cuanta los eliminados 
+      primaryKey: true,
       allowNull: false
     },
     name: {
@@ -16,9 +17,9 @@ module.exports = (sequelize) => {
     },
     IsActive: {
       type: DataTypes.BOOLEAN,
-      // defaultValue:1,
+      defaultValue: true,
       allowNull: false
-  },
+    },
   },
     { //equivalente PRIMARY KEY CLUSTERED 
       // indexes: [
