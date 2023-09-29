@@ -73,13 +73,13 @@ module.exports = (sequelize) => {
       TwoFactorEnabled:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        // defaultValue:0,
+        defaultValue:false, //0
       },
       DateOfBirth:{
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      DeletedDate:{ //?
+      DeletedDate:{ 
         type: DataTypes.DATEONLY,
         allowNull:true
       },

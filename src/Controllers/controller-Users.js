@@ -7,18 +7,21 @@ const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, Do
     PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, 
     TwoFactorEnabled,DateOfBirth, UserStatusId)=> {
 
-
+      // MustChangePassword / TwoFactorEnabled ?
     if(UserLogin && FirstName){
+     if(DocumentTypeId && !DocumentNumber){
+        return { Error: 'Please complete with your document number'}
+     }else if(!DocumentTypeId && DocumentNumber){
+        return { Error: 'Please indicate the type of document'}
+     }  
         const newUser = await SecUsers.create({UserLogin, FirstName,LastName, DocumentNumber, 
             Address, city, PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, 
             MustChangePassword, FailedAccessAttempts, TokenId, 
             TwoFactorEnabled,DateOfBirth, UserStatusId});
 
-          //console.log(typeof newUser) //obj
-
         let Document = await DocumentTypes.findOne( {where: {Id: DocumentTypeId} } );
         let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
-        //console.log(typeof Document) //obj
+        
         await Document.addSecUsers(newUser);
         await Status.addSecUsers(newUser);
 
