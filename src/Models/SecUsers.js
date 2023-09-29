@@ -6,8 +6,8 @@ module.exports = (sequelize) => {
     sequelize.define('SecUsers', {
     Id:{
         type: DataTypes.UUID, //uniqueidentifier  
-        // defaultValue: Sequelize.literal('uuid_generate_v4()') ,//equivalente a la funcion newid()
-        // defaultValue: DataTypes.UUIDV4, 
+       // defaultValue: Sequelize.literal('uuid_generate_v4()') ,//equivalente a la funcion newid()
+        defaultValue: DataTypes.UUIDV4, 
        primaryKey: true, 
         unique: true, 
         allowNull: false,
@@ -24,10 +24,7 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      // DocumentTypeId:{
-      //   type: DataTypes.INTEGER,
-      //   allowNull: true,
-      // },
+    
 	  DocumentNumber:{
         type: DataTypes.INTEGER,
         allowNull: true,
@@ -63,7 +60,7 @@ module.exports = (sequelize) => {
       MustChangePassword: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
-        // defaultValue:0,
+        defaultValue:false,// 0
       },
       FailedAccessAttempts: {
         type: DataTypes.INTEGER,
@@ -82,28 +79,24 @@ module.exports = (sequelize) => {
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      // UserStateId:{
-      //   type: DataTypes.INTEGER,
-      //   allowNull:true
-      // },
-      DeletedDate:{
+      DeletedDate:{ //?
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      LastAccessDate:{
+      LastAccessDate:{ //?
         type: DataTypes.DATEONLY,
         allowNull:true
       },
 
-      ////////////////////
-      CreatedDate: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('NOW()') //función GETDATE() equivale a 'NOW()' Cuando se inserta una nueva fila en la tabla SecUsers y no se proporciona un valor para la columna CreatedDate, se utilizará la fecha y hora actuales generadas por NOW()
-      },
-      ModifiedDate: {
-        type: DataTypes.DATE,
-        defaultValue: Sequelize.literal('NOW()') 
-      },
+      //////////////////// se genera de forma automatica con prop createdAt y updatedAt
+      // CreatedDate: {
+      //   type: DataTypes.DATE,
+      //   defaultValue: Sequelize.literal('NOW()') //función GETDATE() equivale a 'NOW()' Cuando se inserta una nueva fila en la tabla SecUsers y no se proporciona un valor para la columna CreatedDate, se utilizará la fecha y hora actuales generadas por NOW()
+      // },
+      // ModifiedDate: {
+      //   type: DataTypes.DATE,
+      //   defaultValue: Sequelize.literal('NOW()') 
+      // },
     },
     {  //equivalente PRIMARY KEY CLUSTERED 
       indexes: [

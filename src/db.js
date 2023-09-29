@@ -45,9 +45,9 @@ SecUsers.belongsTo(DocumentTypes); //en secUser se crea una fila DocumentTypeId
 
 
 //relaciones SecUsers - UserStatus
- UserStatus.hasMany(SecUsers);
+//  UserStatus.hasMany(SecUsers);
 
- SecUsers.belongsTo(UserStatus); //en secUser se crea una fila UserStatusId
+//  SecUsers.belongsTo(UserStatus); //en secUser se crea una fila UserStatusId
 
 //  {
 //   through: 'UserStateId',

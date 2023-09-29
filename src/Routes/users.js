@@ -1,10 +1,17 @@
 const { Router } = require('express');
+const { confirmationUser, getAllUser } = require('../Controllers/controller-Users');
 const router = Router();
 
 router.post('/postUser', async(req,res,next)=>{ 
-    const {name, direcction} = req.body;
+    const {UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city, PostalCode, PhoneNumbers, Email, 
+        PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, TwoFactorEnabled, DateOfBirth,
+        UserStateId} = req.body;
     try {   
-     res.status(200).json(name);
+     let response = await confirmationUser(UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city,
+         PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, 
+         FailedAccessAttempts, TokenId, TwoFactorEnabled, DateOfBirth, UserStateId)
+
+     res.status(200).json(response);
     
     } catch (error) {
        console.log(error)
@@ -13,7 +20,7 @@ router.post('/postUser', async(req,res,next)=>{
 
 router.get('/allUsers', async(req,res,next)=>{ 
   
-     const response = 'soy una respuesta';
+    let response=await getAllUser();
      try {   
         res.status(200).json(response);
        
