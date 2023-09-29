@@ -6,6 +6,8 @@ const {DocumentTypes,UserStatus,SecUsers} = require('../db');
 const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city, PostalCode, 
     PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, 
     TwoFactorEnabled,DateOfBirth, UserStatusId)=> {
+
+
     if(UserLogin && FirstName){
         const newUser = await SecUsers.create({UserLogin, FirstName,LastName, DocumentNumber, 
             Address, city, PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, 
@@ -48,7 +50,7 @@ const deleteUser = async(id,UserStatusId)=>{
   const user = await SecUsers.findByPk(id);
   let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
   if (!user) {
-    return {Error:'The user was not found'};
+    return {Error:'Username does not exist'};
   }
   // await Status.addSecUsers(newUser);
   await user.destroy(); // Elimina el usuario temporalmente
@@ -56,8 +58,24 @@ const deleteUser = async(id,UserStatusId)=>{
   
 }
 
+const modifyUser = async(id,modifications) =>{
+
+    const user = await SecUsers.findByPk(id);
+
+    if (!user) {
+      return { Error: 'Username does not exist' };
+    }
+    await user.update(modifications);
+    return { message: 'User modified successfully'};
+
+
+}
+
+
+
 module.exports= {
     confirmationUser,
     getAllUser,
-    deleteUser   
+    deleteUser,
+    modifyUser   
 }
