@@ -4,9 +4,9 @@ const router = Router();
 
 
 router.post('/postStatus', async(req,res,next)=>{ 
-    const {Id,name} = req.body;
+    const {name} = req.body;
      try {   
-       let response =await confirmationUserStatus(Id,name);
+       let response =await confirmationUserStatus(name);
      //  res.status(200).send(response);
      res.status(200).json(response);
     

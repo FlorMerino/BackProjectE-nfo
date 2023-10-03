@@ -11,7 +11,7 @@ router.post('/postUser', async(req,res,next)=>{
          PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, 
          FailedAccessAttempts, TokenId, TwoFactorEnabled, DateOfBirth, UserStatusId)
 
-     response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)
+     response.Error? res.status(404).json(response.Error) : res.status(201).json(response.message)
     
     } catch (error) {
       res.status(500).json('Error creating user');
