@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { confirmationUserStatus } = require('../Controllers/controllers-Doc-UserS');
+const { confirmationUserStatus, getAllStatus } = require('../Controllers/controllers-Doc-UserS');
 const router = Router();
 
 
@@ -15,5 +15,16 @@ router.post('/postStatus', async(req,res,next)=>{
      }
  });
 
+ router.get('/allStatus', async(req,res,next)=>{ 
+  
+  let response=await getAllStatus();
+   try {    
+      response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)     
+ 
+     } catch (error) {
+       res.status(500).json('Error loading states');
+       console.log(error)
+     }
+});
 
  module.exports= router;

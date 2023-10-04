@@ -14,6 +14,17 @@ const confirmationDocument = async(name, description)=> {
     else return'Required fields are missing';
 };
 
+const getAllDocuments = async()=>{
+    const documentsTypeDb = await DocumentTypes.findAll({ 
+        attributes: ['Id','name', 'description'],
+      });
+      
+      if(documentsTypeDb.length>0){
+        return {message: documentsTypeDb};
+      }else{
+        return {Error:'Types of documents not found'};
+      }
+}
 
 const confirmationUserStatus = async(name)=> {
     if(name){
@@ -26,7 +37,21 @@ const confirmationUserStatus = async(name)=> {
     else return'Required fields are missing';
 };
 
+const  getAllStatus = async()=>{
+    const userStatusDb = await UserStatus.findAll({ 
+        attributes: ['Id','name'],
+      });
+      
+      if(userStatusDb.length>0){
+        return {message: userStatusDb};
+      }else{
+        return {Error:'No states found'};
+      }
+}
+
 module.exports= {
  confirmationDocument,
- confirmationUserStatus
+ confirmationUserStatus,
+ getAllDocuments,
+ getAllStatus
 }

@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const { confirmationDocument } = require('../Controllers/controllers-Doc-UserS');
+const { confirmationDocument, getAllDocuments } = require('../Controllers/controllers-Doc-UserS');
 const router = Router();
 
 
@@ -17,5 +17,17 @@ const router = Router();
         console.log(error)
      }
  });
+
+ router.get('/allDocuments', async(req,res,next)=>{ 
+  
+    let response=await getAllDocuments();
+     try {    
+        response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)     
+       //resp array de obj
+       } catch (error) {
+         res.status(500).json('Error loading document types');
+         console.log(error)
+       }
+});
 
  module.exports= router;
