@@ -12,24 +12,24 @@ module.exports = (sequelize) => {
         unique: true, 
         allowNull: false,
       },
-      UserLogin:{
+      userLogin:{
         type: DataTypes.STRING(100),//traduce a varchar en postgreSQL
         allowNull: false,
       },
-      FirstName: {       
+      firstName: {       
         type: DataTypes.STRING(100),
         allowNull: false,
       },
-      LastName:{
+      lastName:{
         type: DataTypes.STRING(100),
         allowNull: true,
       },
     
-	  DocumentNumber:{
+	  documentNumber:{
         type: DataTypes.INTEGER,
         allowNull: true,
       },
-      Address:{
+      address:{
         type: DataTypes.STRING(100),
         allowNull: true,
       },
@@ -37,53 +37,53 @@ module.exports = (sequelize) => {
         type: DataTypes.STRING(100),
         allowNull: true,
       },
-      PostalCode:{
+      postalCode:{
         type: DataTypes.STRING(10),
         allowNull: true,
       },
-      PhoneNumbers:{
+      phoneNumbers:{
         type: DataTypes.STRING(1000),
         allowNull: true,
       },
-      Email: {
+      email: {
         type: DataTypes.STRING(1000),
         allowNull: true
       },
-      PasswordHash:{
+      passwordHash:{
         type: DataTypes.STRING,
         allowNull: true
       },
-      PasswordSalt: {
+      passwordSalt: {
         type: DataTypes.STRING,
         allowNull: true
       },
-      MustChangePassword: {
+      mustChangePassword: {
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue:false,// 0
       },
-      FailedAccessAttempts: {
+      failedAccessAttempts: {
         type: DataTypes.INTEGER,
         allowNull: true
       },
-      TokenId: {
+      tokenId: {
         type: DataTypes.STRING,
         allowNull: true
       },
-      TwoFactorEnabled:{
+      twoFactorEnabled:{
         type: DataTypes.BOOLEAN,
         allowNull: false,
         defaultValue:false, //0
       },
-      DateOfBirth:{
+      dateOfBirth:{
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      DeletedDate:{ 
+      deletedDate:{ 
         type: DataTypes.DATEONLY,
         allowNull:true
       },
-      LastAccessDate:{ //?
+      lastAccessDate:{ //?
         type: DataTypes.DATEONLY,
         allowNull:true
       },
@@ -110,7 +110,7 @@ module.exports = (sequelize) => {
       createdAt: true, //guarda de forma automatica la fecha en que se creo el user
       updatedAt: true, // guarda tiempo de la última actualización
       paranoid:true, // Habilita el modo "paranoid", elimina de forma temporal
-      deletedAt: 'DeletedDate' 
+      deletedAt: 'deletedDate' 
       
     }
     );

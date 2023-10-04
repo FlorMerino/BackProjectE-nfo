@@ -5,10 +5,12 @@ const router = Router();
 
  router.post('/postDoc', async(req,res,next)=>{ 
     const {name, description} = req.body;
-    console.log(req.body)
+    console.log(name)
      try {   
       let response =await confirmationDocument(name, description);
      //  res.status(200).send(response);
+     //manejar errores
+     console.log(response)
      res.status(200).json(response);
     
     } catch (error) {

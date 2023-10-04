@@ -15,10 +15,9 @@ const confirmationDocument = async(name, description)=> {
 };
 
 
-const confirmationUserStatus = async(Id,name)=> {
+const confirmationUserStatus = async(name)=> {
     if(name){
         const newStatus = await UserStatus.create({
-            Id,
             name,          
         });
         // console.log(newDocument)

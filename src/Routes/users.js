@@ -3,13 +3,13 @@ const { confirmationUser, getAllUser, deleteUser, modifyUser } = require('../Con
 const router = Router();
 
 router.post('/postUser', async(req,res,next)=>{ 
-    const {UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city, PostalCode, PhoneNumbers, Email, 
-        PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, TwoFactorEnabled, DateOfBirth,
+    const {userLogin, firstName,lastName,documentNumber,DocumentTypeId, address, city, postalCode, phoneNumbers, email, 
+        passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth,
         UserStatusId} = req.body;
     try {   
-     let response = await confirmationUser(UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city,
-         PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, 
-         FailedAccessAttempts, TokenId, TwoFactorEnabled, DateOfBirth, UserStatusId)
+     let response = await confirmationUser(userLogin, firstName,lastName, DocumentTypeId, documentNumber, address, city, postalCode, phoneNumbers, email, 
+      passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth,
+      UserStatusId)
 
      response.Error? res.status(404).json(response.Error) : res.status(201).json(response.message)
     

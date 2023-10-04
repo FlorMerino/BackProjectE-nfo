@@ -3,29 +3,27 @@ const {DocumentTypes,UserStatus,SecUsers} = require('../db');
 
 
 
-const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, DocumentNumber, Address, city, PostalCode, 
-    PhoneNumbers, Email, PasswordHash, PasswordSalt, MustChangePassword, FailedAccessAttempts, TokenId, 
-    TwoFactorEnabled,DateOfBirth, UserStatusId)=> {
+const confirmationUser = async(userLogin, firstName,lastName, DocumentTypeId, documentNumber, address, city, postalCode, phoneNumbers, email, 
+  passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth,
+  UserStatusId)=> {
 
       // MustChangePassword / TwoFactorEnabled ?
-    if(UserLogin && FirstName){
-     if(DocumentTypeId && !DocumentNumber){
+    if(userLogin && firstName){
+     if(DocumentTypeId && !documentNumber){
         return { Error: 'Please complete with your document number'}
-     }else if(!DocumentTypeId && DocumentNumber){
+     }else if(!DocumentTypeId && documentNumber){
         return { Error: 'Please indicate the type of document'}
      }  
-        const newUser = await SecUsers.create({UserLogin, FirstName,LastName, DocumentNumber, 
-            Address, city, PostalCode, PhoneNumbers, Email, PasswordHash, PasswordSalt, 
-            MustChangePassword, FailedAccessAttempts, TokenId, 
-            TwoFactorEnabled,DateOfBirth, UserStatusId});
-
+        const newUser = await SecUsers.create({userLogin, firstName,lastName,documentNumber, address, city, postalCode, phoneNumbers, email, 
+          passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth});
+        console.log(UserStatusId)
         let Document = await DocumentTypes.findOne( {where: {Id: DocumentTypeId} } );
         let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
         
-        await Document.addSecUsers(newUser);
+        await Document.addSecUsers(newUser); 
         await Status.addSecUsers(newUser);
 
-     return { message: `Your user ${FirstName} has been successfully created.`} ;
+     return { message: `Your user ${firstName} has been successfully created.`} ;
     }
     else return { Error: 'Required fields are missing'};
 };
@@ -35,10 +33,10 @@ const confirmationUser = async(UserLogin, FirstName,LastName, DocumentTypeId, Do
 const getAllUser = async()=>{
  //no trae usuarios eliminados temporalmente
     const usersDb = await SecUsers.findAll({ 
-        attributes: ['UserLogin', 'FirstName','LastName', 'DocumentTypeId', 'DocumentNumber', 'Address', 'city', 'PostalCode', 'PhoneNumbers', 'Email', 
-            'DateOfBirth','UserStatusId'],
+        attributes: ['Id','userLogin', 'firstName','lastName', 'DocumentTypeId', 'documentNumber', 'address', 'city', 'postalCode', 'phoneNumbers', 'email', 
+            'dateOfBirth','UserStatusId'],
       });
-      console.log(usersDb);
+      // console.log(usersDb);
       if(usersDb.length>0){
         return {message: usersDb};
       }else{
@@ -48,18 +46,18 @@ const getAllUser = async()=>{
 
 
 
-const deleteUser = async(id,UserStatusId)=>{
+const deleteUser = async(id)=>{
 
   const user = await SecUsers.findByPk(id);
-  let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } ); //para establecerlo en inactivo antes de borrar
+  // let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } ); //para establecerlo en inactivo antes de borrar
   if (!user) {
     return {Error:'Username does not exist'};
   }
-  if (!Status){
-    return {Error:'The status you want to assign does not exist'};
-  }
+  // if (!Status){
+  //   return {Error:'The status you want to assign does not exist'};
+  // }
 
-  await Status.addSecUsers(user);
+  // await Status.addSecUsers(user);
   await user.destroy(); // Elimina el usuario temporalmente
   return {message:'Successfully deleted user'};
   
