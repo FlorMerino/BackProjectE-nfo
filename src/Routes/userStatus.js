@@ -7,7 +7,7 @@ router.post('/postStatus', async(req,res,next)=>{
     const {name} = req.body;
      try {   
        let response =await confirmationUserStatus(name);
-     //  res.status(200).send(response);
+     //manejar errores
      res.status(200).json(response);
     
     } catch (error) {
@@ -17,13 +17,13 @@ router.post('/postStatus', async(req,res,next)=>{
 
  router.get('/allStatus', async(req,res,next)=>{ 
   
-  let response=await getAllStatus();
    try {    
-      response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)     
+     let response=await getAllStatus();
+     res.status(200).json(response.message)     
  
      } catch (error) {
-       res.status(500).json('Error loading states');
-       console.log(error)
+       res.status(500).json(error.message.toString());
+       //console.log(error)
      }
 });
 

@@ -11,7 +11,7 @@ const confirmationDocument = async(name, description)=> {
         // console.log(newDocument)
      return `Your document ${name} was successfully created.`;
     }
-    else return'Required fields are missing';
+    else throw new Error('Required fields are missing');
 };
 
 const getAllDocuments = async()=>{
@@ -22,7 +22,7 @@ const getAllDocuments = async()=>{
       if(documentsTypeDb.length>0){
         return {message: documentsTypeDb};
       }else{
-        return {Error:'Types of documents not found'};
+        throw new Error('Types of documents not found')
       }
 }
 
@@ -34,7 +34,7 @@ const confirmationUserStatus = async(name)=> {
         // console.log(newDocument)
      return `Your status ${name} was successfully created.`;
     }
-    else return'Required fields are missing';
+    else throw new Error('Required fields are missing');
 };
 
 const  getAllStatus = async()=>{
@@ -45,7 +45,7 @@ const  getAllStatus = async()=>{
       if(userStatusDb.length>0){
         return {message: userStatusDb};
       }else{
-        return {Error:'No states found'};
+        throw new Error('No states found')
       }
 }
 

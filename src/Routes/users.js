@@ -11,23 +11,25 @@ router.post('/postUser', async(req,res,next)=>{
       passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth,
       UserStatusId)
 
-     response.Error? res.status(404).json(response.Error) : res.status(201).json(response.message)
-    
+
+     res.status(201).json(response.message)
     } catch (error) {
-      res.status(500).json('Error creating user');
-      console.log(error)
+
+      res.status(400).json(error.message.toString())
+      
+      //console.log(error)
     }
 });
 
 router.get('/allUsers', async(req,res,next)=>{ 
   
-    let response=await getAllUser();
      try {    
-        response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)     
+        let response=await getAllUser();
+        res.status(200).json(response.message)     
        
        } catch (error) {
-         res.status(500).json('Error loading users');
-         console.log(error)
+         res.status(500).json(error.message.toString());
+         //console.log(error)
        }
 });
     
@@ -35,13 +37,14 @@ router.get('/allUsers', async(req,res,next)=>{
  router.delete('/deleteUser/:id', async(req,res,next)=>{ 
     const { id } = req.params;
     const {UserStatusId}= req.body;
-    let response = await deleteUser(id,UserStatusId)
+    
      try {
-      response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)
+     let response = await deleteUser(id,UserStatusId)
+     res.status(200).json(response.message)
      
      } catch (error) {
-      res.status(500).json('Error deleting user');
-        console.log(error)
+      res.status(500).json(error.message.toString());
+        //console.log(error)
      }
  });
 
@@ -51,14 +54,14 @@ router.get('/allUsers', async(req,res,next)=>{
     
     const modifications= req.body;
 
-      console.log(req.body)
      try {
       let response = await modifyUser(id,modifications)
  
-      response.Error? res.status(404).json(response.Error) : res.status(200).json(response.message)
+      res.status(200).json(response.message)
 
      } catch (error) {
-        console.log(error)
+      res.status(500).json(error.message.toString());
+       //console.log(error)
      }
  });
 

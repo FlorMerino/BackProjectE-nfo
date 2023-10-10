@@ -10,13 +10,17 @@ const confirmationUser = async(userLogin, firstName,lastName, DocumentTypeId, do
       // MustChangePassword / TwoFactorEnabled ?
     if(userLogin && firstName){
      if(DocumentTypeId && !documentNumber){
-        return { Error: 'Please complete with your document number'}
-     }else if(!DocumentTypeId && documentNumber){
-        return { Error: 'Please indicate the type of document'}
+
+      throw new Error('Please complete with your document number') 
+
+     }else if(!DocumentTypeId && documentNumber)
+     {
+      throw new Error('Please indicate the type of document')
+        
      }  
         const newUser = await SecUsers.create({userLogin, firstName,lastName,documentNumber, address, city, postalCode, phoneNumbers, email, 
           passwordHash, passwordSalt, mustChangePassword, failedAccessAttempts, tokenId, twoFactorEnabled, dateOfBirth});
-        console.log(UserStatusId)
+     
         let Document = await DocumentTypes.findOne( {where: {Id: DocumentTypeId} } );
         let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } );
         
@@ -25,7 +29,7 @@ const confirmationUser = async(userLogin, firstName,lastName, DocumentTypeId, do
 
      return { message: `Your user ${firstName} has been successfully created.`} ;
     }
-    else return { Error: 'Required fields are missing'};
+    else throw new Error('Required fields are missing') 
 };
 
 
@@ -40,7 +44,8 @@ const getAllUser = async()=>{
       if(usersDb.length>0){
         return {message: usersDb};
       }else{
-        return {Error:'No user found'};
+        throw new Error('No user found')
+        
       }
 }
 
@@ -49,14 +54,15 @@ const getAllUser = async()=>{
 const deleteUser = async(id)=>{
 
   const user = await SecUsers.findByPk(id);
+  console.log(user)
   // let Status = await UserStatus.findOne( {where: {Id: UserStatusId} } ); //para establecerlo en inactivo antes de borrar
   if (!user) {
-    return {Error:'Username does not exist'};
+    throw new Error('Username does not exist')
+    
   }
   // if (!Status){
   //   return {Error:'The status you want to assign does not exist'};
   // }
-
   // await Status.addSecUsers(user);
   await user.destroy(); // Elimina el usuario temporalmente
   return {message:'Successfully deleted user'};
@@ -69,11 +75,12 @@ const modifyUser = async(id,modifications) =>{
     const user = await SecUsers.findByPk(id);
 
     if (!user) {
-      return { Error: 'Username does not exist' };
+      throw new Error('Username does not exist')
+  
     }
      if (modifications.DocumentTypeId){
        let Document = await DocumentTypes.findOne( {where: {Id: modifications.DocumentTypeId} } );
-
+       //falta considerar que pasa si no se encontrara el id del doc
        await Document.addSecUsers(user);
        
     }else if (modifications.UserStatusId){
